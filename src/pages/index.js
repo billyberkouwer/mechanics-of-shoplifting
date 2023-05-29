@@ -83,11 +83,10 @@ export default function Home({ content }) {
       <div className='container--pages' ref={pagesContainerRef}  >
         <AnimatePresence>
           {content.map((page, index) => {
-            if (page.title === 'The Garter') {
+              console.log(page)
               return (
                   <Page key={'page' + index} ref={pageRefs} index={index} swipeIndex={swipeData.index} content={page.content} footnotes={page.references} />
               )
-            }
           }
           )}
           {/* <ThreeCanvasPage key={'3d-page'} ref={pageRefs} index={0} swipeIndex={swipeData.index} model={'/assets/3d/monkey.glb'} /> */}
@@ -112,7 +111,7 @@ export async function getStaticProps() {
 
   if (pageOrder.length) {
     if (pageOrder[0].pages.length) {
-      pageOrder[0].pages.forEach(orderedPage => {
+      pageOrder[0].pages.forEach((orderedPage, index) => {
         pages.forEach((page, i) => {
           if (orderedPage['_ref'] === page['_id']) {
             content.push(page);
@@ -121,7 +120,7 @@ export async function getStaticProps() {
               block.markDefs.forEach((mark) => {
                 references.forEach((reference) => {
                   if (mark['_ref'] === reference['_id']) {
-                    content[i].references.push(reference);
+                    content[index].references.push(reference);
                   }
                 })
               })
