@@ -73,7 +73,7 @@ body {
 /* ------------ PAGE ------------- */
 
 .container--pages {
-  position: absolute;
+  position: fixed;
   display: flex;
   align-items: center;
   left: 0;
