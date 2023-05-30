@@ -63,13 +63,13 @@ export default function Home({ content }) {
   const swipeHandlers = useSwipeable({
     onSwiped: (e) => handleSwipe(e),
     trackMouse: true,
-    trackTouch: true,
   });
 
 
   useEffect(() => {
-    if (mousePosition) {
+    if (mousePosition && globalContainerRef.current) {
       window.addEventListener("mousemove", function () {
+        console.log(mousePosition)
         globalContainerRef.current.style.transform = `translate(${(-mousePosition.current.mouse.pageX + (window.innerWidth / 2)) / 10}px, ${(-mousePosition.current.mouse.pageY + (window.innerHeight / 2)) / 10}px)`
       })
     }
@@ -78,9 +78,9 @@ export default function Home({ content }) {
   console.log(content)
 
   return (
-    <div {...swipeHandlers} ref={globalContainerRef} className='swiper--control'>
+    <div ref={globalContainerRef} {...swipeHandlers} className='swiper--control'>
       <Background windowSize={windowSize} ref={backgroundContainerRef} />
-      <div className='container--pages' ref={pagesContainerRef}  >
+      <div className='container--pages'  ref={pagesContainerRef}  >
         <AnimatePresence>
           {content.map((page, index) => {
               console.log(page)

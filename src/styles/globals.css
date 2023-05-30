@@ -6,7 +6,7 @@ body {
   background-color: green;
   /* cursor: none; */
   user-select: none;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .text--body {
@@ -25,14 +25,14 @@ body {
 /* ------------ BACKGROUND ------------- */
 
 .container--background {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   transition: transform 0.5s ease-in-out;
   background-size: contain;
+  opacity: 1;
   width: 1000vw;
   height: 1000vh;
-  opacity: 1;
 }
 
 .container--background-wall {
@@ -42,8 +42,6 @@ body {
   height: inherit;
   width: inherit;
   position: fixed;
-  top: -500vh;
-  left: -500vw;
 }
 
 .container--background-images {
