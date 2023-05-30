@@ -123,9 +123,9 @@ export default function Home({ content, pageOrder }) {
                   <ThreeScene key={'three-scene'} model={page.model.modelUrl} ref={pageRefs} index={index} />
                 )
               }
-              // return (
-              //   <Page key={'page' + index} ref={pageRefs} index={index} swipeIndex={swipeData.index} content={page.content} footnotes={page.references} />
-              // )
+              return (
+                <Page key={'page' + index} ref={pageRefs} index={index} swipeIndex={swipeData.index} content={page.content} footnotes={page.references} />
+              )
             }
             )}
           </AnimatePresence>
