@@ -75,7 +75,7 @@ body {
   left: 0;
   width: 100vw;
   min-height: 100vh;
-  min-height: 100dvh;
+  min-height: 100svh;
   transition: transform 0.5s ease-in-out;
   user-select: none;
 }
@@ -85,9 +85,10 @@ body {
   padding: 5vh;
   overflow-y: scroll;
   height: 85vh;
+  height: 85svh;
 }
 
-@media screen and (min-width: 768px){
+@media screen and (min-width: 768px) {
   .text--body {
     padding: 7vh;
   }
@@ -97,9 +98,12 @@ body {
   position: relative;
   display: inline-block;
   height: 85vh;
+  height: 85svh;
   margin: 0px;
-  left: calc(50% - min(calc(85vh * 0.7), 90vw)/2) ;
+  left: calc(50% - min(calc(85vh * 0.7), 90vw)/2);
+  left: calc(50% - min(calc(85svh * 0.7), 90vw)/2);
   min-width: min(calc(85vh * 0.7), 90vw);
+  min-width: min(calc(85svh * 0.7), 90vw);
   opacity: 0.9;
 }
 
@@ -120,27 +124,32 @@ body {
   width: 200vw;
   height: 200vh;
   height: 200dvh;
-  background: rgb(0,0,0);
-  background: -moz-radial-gradient(circle, rgba(0,0,0,0) 33%, rgba(0,0,0,0.8883928571428571) 73%);
-  background: -webkit-radial-gradient(circle, rgba(0,0,0,0) 33%, rgba(0,0,0,0.8883928571428571) 73%);
-  background: radial-gradient(circle, rgba(0,0,0,0) 33%, rgba(0,0,0,0.8883928571428571) 73%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#000000",endColorstr="#000000",GradientType=1);
+  background: rgb(0, 0, 0);
+  background: -moz-radial-gradient(circle, rgba(0, 0, 0, 0) 33%, rgba(0, 0, 0, 0.8883928571428571) 73%);
+  background: -webkit-radial-gradient(circle, rgba(0, 0, 0, 0) 33%, rgba(0, 0, 0, 0.8883928571428571) 73%);
+  background: radial-gradient(circle, rgba(0, 0, 0, 0) 33%, rgba(0, 0, 0, 0.8883928571428571) 73%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#000000", endColorstr="#000000", GradientType=1);
 }
 
-.candle {
-  width: 200px;
-   height: 200px;
-   position: absolute;
-   top: 0;
-   left: 0;
-   object-fit: contain;
-   pointer-events: none;
+.eye--container {
+  width: min-content;
+  height: min-content;
+  position: absolute;
+  top: 0;
+  left: 0;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.eye {
+  opacity: 0;
+  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
 }
 
 .container--canvas {
   margin: 0;
   padding: 0;
-  
+
   height: inherit;
   width: inherit;
   box-sizing: border-box;
@@ -160,9 +169,27 @@ body {
   display: inline-block;
   height: 85vh;
   margin: 0px;
-  left: calc(50% - (85vh * 0.75)/2) ;
+  left: calc(50% - (85vh * 0.75)/2);
   width: calc(85vh * 0.7);
   min-width: max(calc(85vh * 0.7), 300px);
   opacity: 0.9;
   overflow-y: scroll;
+}
+
+.click-area-left {
+  position: fixed;
+  top: -20vh;
+  left: 80vw;
+  width: 40vw;
+  height: 140vh;
+  z-index: 1000;
+}
+
+.click-area-right {
+  position: fixed;
+  top: -20vh;
+  left: -20vw;
+  width: 40vw;
+  height: 140vh;
+  z-index: 1000;
 }

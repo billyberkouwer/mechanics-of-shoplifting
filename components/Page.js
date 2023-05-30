@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { PortableText } from "@portabletext/react";
 import Footnote from "./Footnote";
 import Image from "next/image";
+import { isMobile } from "react-device-detect";
 
 const Page = forwardRef(({
     windowSize,
@@ -32,7 +33,12 @@ const Page = forwardRef(({
     }
 
     useEffect(() => {
-        setPageRotation({ start: (Math.random() - 0.5) * 20, end: (Math.random() - 0.5) * 20 })
+        let factor = 20;
+        if (isMobile) {
+            factor = 10;
+        }
+        const rotation = { start: (Math.random() - 0.5) * factor, end: (Math.random() - 0.5) * factor }
+        setPageRotation(rotation)
     }, [])
 
     return (

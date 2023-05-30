@@ -9,6 +9,7 @@ import { createClient } from '@sanity/client';
 import ThreeCanvasPage from '../../components/ThreeCanvasPage';
 import Page from '../../components/Page';
 import { isMobile } from 'react-device-detect';
+import Image from 'next/image';
 
 
 export default function Home({ content }) {
@@ -20,6 +21,7 @@ export default function Home({ content }) {
   const scrollAmount = useRef(0);
   const windowSize = useWindowSize();
   const mousePosition = useMousePosition();
+  const [eyeController, setEyeController] = useState({backward: false, visible: false})
 
   function handleSwipe(e) {
     if (e.dir === 'Left' && swipeData.index < content.length - 1) {
@@ -35,6 +37,10 @@ export default function Home({ content }) {
       }
       setSwipeData(data);
     }
+  }
+
+  function handleMouseOver(e) {
+
   }
 
   useEffect(() => {
@@ -69,8 +75,8 @@ export default function Home({ content }) {
 
   useEffect(() => {
     function callback() {
-      document.body.style.transform = `translate(${(-mousePosition.current.mouse.pageX + (window.innerWidth / 2))/10}px, ${(-mousePosition.current.mouse.pageY + (window.innerHeight / 2)) / 10}px)`
-  }
+      document.body.style.transform = `translate(${(-mousePosition.current.mouse.pageX + (window.innerWidth / 2)) / 10}px, ${(-mousePosition.current.mouse.pageY + (window.innerHeight / 2)) / 10}px)`
+    }
     if (mousePosition && !isMobile) {
       window.addEventListener("mousemove", callback)
       return () => {
@@ -80,22 +86,35 @@ export default function Home({ content }) {
   }, [mousePosition])
 
   return (
-    <div ref={globalContainerRef} {...swipeHandlers} className='swiper--control'>
-      <Background windowSize={windowSize} ref={backgroundContainerRef} />
-      <div className='container--pages'  ref={pagesContainerRef}  >
-        <AnimatePresence>
-          {content.map((page, index) => {
+    <>
+      <div 
+        className='click-area-left' 
+        onMouseEnter={() =>{swipeData.index < content.length - 1 && setEyeController({backward: false, visible: true})}} 
+        onMouseLeave={() => setEyeController({backward: false, visible: false})} 
+        onClick={() => handleSwipe({ dir: 'Left' })} 
+        />
+      <div className='click-area-right' 
+        onMouseEnter={() => swipeData.index > 0 && setEyeController({backward: true, visible: true})} 
+        onMouseLeave={() => setEyeController({backward: true, visible: false})} 
+        onClick={() => handleSwipe({ dir: 'Right' })} 
+        />
+      <div ref={globalContainerRef} {...swipeHandlers} className='swiper--control'>
+        <Background windowSize={windowSize} ref={backgroundContainerRef} />
+        <div className='container--pages' ref={pagesContainerRef}  >
+          <AnimatePresence>
+            {content.map((page, index) => {
               console.log(page)
               return (
-                  <Page key={'page' + index} ref={pageRefs} index={index} swipeIndex={swipeData.index} content={page.content} footnotes={page.references} />
+                <Page key={'page' + index} ref={pageRefs} index={index} swipeIndex={swipeData.index} content={page.content} footnotes={page.references} />
               )
-          }
-          )}
-          {/* <ThreeCanvasPage key={'3d-page'} ref={pageRefs} index={0} swipeIndex={swipeData.index} model={'/assets/3d/monkey.glb'} /> */}
-        </AnimatePresence>
+            }
+            )}
+            {/* <ThreeCanvasPage key={'3d-page'} ref={pageRefs} index={0} swipeIndex={swipeData.index} model={'/assets/3d/monkey.glb'} /> */}
+          </AnimatePresence>
+        </div>
+        <Candle eyeController={eyeController}/>
       </div>
-      <Candle />
-    </div>
+    </>
   )
 };
 
