@@ -6,10 +6,12 @@ import Candle from '../../components/Candle';
 import Background from '../../components/Background';
 import useMousePosition from '../../hooks/useMousePosition';
 import { createClient } from '@sanity/client';
-import ThreeCanvasPage from '../../components/ThreeCanvasPage';
 import Page from '../../components/Page';
 import { isMobile } from 'react-device-detect';
 import Image from 'next/image';
+import { Canvas } from '@react-three/fiber';
+import { OrbitControls, useGLTF } from '@react-three/drei';
+import ThreeScene from '../../components/ThreeScene';
 
 
 export default function Home({ content, pageOrder }) {
@@ -59,8 +61,7 @@ export default function Home({ content, pageOrder }) {
     if (pageRefs.current.length) {
       pagesContainerRef.current.style.transform = `translateX(${-scrollAmount.current}px)`;
     }
-    console.log(swipeData)
-    console.log(pageRefs.current[swipeData.index].offsetWidth)
+    console.log(pageRefs)
   }, [swipeData])
 
   useEffect(() => {
@@ -91,10 +92,6 @@ export default function Home({ content, pageOrder }) {
     }
   }, [mousePosition])
 
-  useEffect(() => {
-    console.log(content)
-  }, [content])
-
   return (
     <>
       <div
@@ -121,12 +118,16 @@ export default function Home({ content, pageOrder }) {
                   </div>
                 )
               }
-              return (
-                <Page key={'page' + index} ref={pageRefs} index={index} swipeIndex={swipeData.index} content={page.content} footnotes={page.references} />
-              )
+              if (page["_type"] === "threePage") {
+                return (
+                  <ThreeScene key={'three-scene'} model={page.model.modelUrl} ref={pageRefs} index={index} />
+                )
+              }
+              // return (
+              //   <Page key={'page' + index} ref={pageRefs} index={index} swipeIndex={swipeData.index} content={page.content} footnotes={page.references} />
+              // )
             }
             )}
-            {/* <ThreeCanvasPage key={'3d-page'} ref={pageRefs} index={0} swipeIndex={swipeData.index} model={'/assets/3d/monkey.glb'} /> */}
           </AnimatePresence>
         </div>
         <Candle eyeController={eyeController} />
@@ -143,22 +144,30 @@ export async function getStaticProps() {
   });
 
   const pageOrder = await client.fetch(`*[_type == "pageOrder"]`);
-  const pages = await client.fetch(`*[_type == "page"]`);
   const references = await client.fetch('*[_type == "references"]');
+  const threeModels = await client.fetch(`*[_type == "threePage"]{
+    id,
+    "modelUrl": threeFile.asset->url
+  }`);
   const content = [];
 
   const promises = pageOrder[0].pages.map(async (page) => await client.fetch(`*[_id == "${page['_ref']}"]`))
   const response = await Promise.all(promises);
 
-
-
   response.forEach((page, i) => {
     content.push(...page);
     content[i].references = [];
+    if (page[0]['_type'] === 'threePage') {
+      threeModels.forEach(model => {
+        if (model['_id'] === model['_id']) {
+          content[i].model = model;
+          console.log(model)
+        }
+      })
+    }
     if (page[0]['_type'] === 'page') {
       page[0].content.forEach((block) => {
         block.markDefs.forEach(mark => {
-          // console.log(mark['_ref'])
           references.forEach(ref => {
             if (ref['_id'] === mark['_ref'] && mark['_ref']) {
               content[i].references.push(ref);
@@ -166,7 +175,7 @@ export async function getStaticProps() {
         })
       })
     }
-  })
+  });
 
   return {
     props: {
