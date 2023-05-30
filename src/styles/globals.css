@@ -176,6 +176,10 @@ body {
   overflow-y: scroll;
 }
 
+.hidden {
+  display: none;
+}
+
 .click-area-left {
   position: fixed;
   top: -20vh;
