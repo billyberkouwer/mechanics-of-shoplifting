@@ -10,11 +10,6 @@ body {
   /* overflow: hidden; */
 }
 
-.text--body {
-  padding: 7vh;
-  user-select: none;
-}
-
 /* body::-webkit-scrollbar {
   display: none;
 }
@@ -84,6 +79,36 @@ body {
   transition: transform 0.5s ease-in-out;  
 }
 
+.text--body {
+  box-sizing: border-box;
+  padding: 5vh;
+  overflow-y: scroll;
+  height: 85vh;
+}
+
+@media screen and (min-width: 768px){
+  .text--body {
+    padding: 7vh;
+  }
+}
+
+.container--page {
+  position: relative;
+  display: inline-block;
+  height: 85vh;
+  margin: 0px;
+  left: calc(50% - min(calc(85vh * 0.7), 90vw)/2) ;
+  min-width: min(calc(85vh * 0.7), 90vw);
+  opacity: 0.9;
+}
+
+.content-container--page {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+
 .vignette {
   position: fixed;
   pointer-events: none;
@@ -109,28 +134,6 @@ body {
    left: 0;
    object-fit: contain;
    pointer-events: none;
-}
-
-.container--page {
-  position: relative;
-  background-image: url('/assets/paper.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  display: inline-block;
-  height: 85vh;
-  margin: 0px;
-  left: calc(50% - (85vh * 0.75)/2) ;
-  width: calc(85vh * 0.7);
-  min-width: max(calc(85vh * 0.7), 300px);
-  opacity: 0.9;
-  overflow-y: scroll;
-}
-
-.content-container--page {
-  display: flex;
-  align-items: center;
-  box-sizing: border-box;
 }
 
 .container--canvas {

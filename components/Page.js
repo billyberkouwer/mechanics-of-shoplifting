@@ -2,6 +2,7 @@ import { forwardRef, useEffect, useRef, useState } from "react"
 import { motion } from "framer-motion";
 import { PortableText } from "@portabletext/react";
 import Footnote from "./Footnote";
+import Image from "next/image";
 
 const Page = forwardRef(({
     windowSize,
@@ -34,10 +35,11 @@ const Page = forwardRef(({
         setPageRotation({ start: (Math.random() - 0.5) * 20, end: (Math.random() - 0.5) * 20 })
     }, [])
 
-
-
     return (
         <motion.div className='container--page' ref={el => ref.current[index] = el} initial={{ scale: 2, rotateZ: pageRotation.start }} transition={{ duration: 0.5 }} animate={{ scale: 1, rotateZ: pageRotation.end }}>
+            <div style={{position: 'fixed', zIndex: -1, height: '100%', width: '100%', top: 0, left: 0}}>
+                <Image src={"/assets/paper.png"} fill />
+            </div>
             <div className="text--body" ref={el => pageElementsRef.current[0] = el}>
                 <PortableText value={content} components={PortableTextComponents} />
             </div>

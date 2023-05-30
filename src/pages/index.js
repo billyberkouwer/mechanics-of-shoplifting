@@ -8,6 +8,7 @@ import useMousePosition from '../../hooks/useMousePosition';
 import { createClient } from '@sanity/client';
 import ThreeCanvasPage from '../../components/ThreeCanvasPage';
 import Page from '../../components/Page';
+import { isMobile } from 'react-device-detect';
 
 
 export default function Home({ content }) {
@@ -67,10 +68,14 @@ export default function Home({ content }) {
 
 
   useEffect(() => {
-    if (mousePosition) {
-      window.addEventListener("mousemove", function () {
-          document.body.style.transform = `translate(${(-mousePosition.current.mouse.pageX + (window.innerWidth / 2))/10}px, ${(-mousePosition.current.mouse.pageY + (window.innerHeight / 2)) / 10}px)`
-      })
+    function callback() {
+      document.body.style.transform = `translate(${(-mousePosition.current.mouse.pageX + (window.innerWidth / 2))/10}px, ${(-mousePosition.current.mouse.pageY + (window.innerHeight / 2)) / 10}px)`
+  }
+    if (mousePosition && !isMobile) {
+      window.addEventListener("mousemove", callback)
+      return () => {
+        window.removeEventListener("mousemove", callback)
+      }
     }
   }, [mousePosition])
 
@@ -89,7 +94,7 @@ export default function Home({ content }) {
           {/* <ThreeCanvasPage key={'3d-page'} ref={pageRefs} index={0} swipeIndex={swipeData.index} model={'/assets/3d/monkey.glb'} /> */}
         </AnimatePresence>
       </div>
-      {/* <Candle /> */}
+      <Candle />
     </div>
   )
 };
