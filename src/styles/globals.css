@@ -7,7 +7,17 @@ body {
   overflow: hidden;
   /* cursor: none; */
   /* user-select: none; */
-  /* overflow: hidden; */
+}
+
+h1 {
+  font-size: 1.25em;
+
+}
+
+@media screen and (min-width: 768px) {
+  h1 {
+    font-size: 2em;
+  }
 }
 
 /* body::-webkit-scrollbar {
@@ -20,8 +30,8 @@ body {
 } */
 
 .container--homepage {
-  min-width: 80svw;
-  left: 10svw;
+  min-width: 100vw;
+  left: 0vw;
   height: 100vh;
   position: relative;
   display: flex;
@@ -30,6 +40,13 @@ body {
   /* background-color: red; */
   mix-blend-mode: difference;
   color: white;
+}
+
+@media screen and (min-width: 768px) {
+  .container--homepage {
+  min-width: 80vw;
+  left: 10vw;
+  }
 }
 
 /* ------------ BACKGROUND ------------- */

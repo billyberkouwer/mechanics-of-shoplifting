@@ -155,20 +155,18 @@ export async function getStaticProps() {
   response.forEach((page, i) => {
     content.push(...page);
     content[i].references = [];
-    if (page['_type'] === 'page') {
-      page.content.forEach((block) => {
+    if (page[0]['_type'] === 'page') {
+      page[0].content.forEach((block) => {
         block.markDefs.forEach(mark => {
-          references.forEach(footnote => {
-            if (footnote['_ref'] === mark['_id']) {
-              content[i].references.push(footnote);
-            }
-          })
+          // console.log(mark['_ref'])
+          references.forEach(ref => {
+            if (ref['_id'] === mark['_ref'] && mark['_ref']) {
+              content[i].references.push(ref);
+            }})
         })
       })
     }
   })
-
-  console.log(references)
 
   return {
     props: {
