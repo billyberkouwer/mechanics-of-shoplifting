@@ -76,7 +76,8 @@ body {
   width: 100vw;
   min-height: 100vh;
   min-height: 100dvh;
-  transition: transform 0.5s ease-in-out;  
+  transition: transform 0.5s ease-in-out;
+  user-select: none;
 }
 
 .text--body {
