@@ -67,15 +67,12 @@ export default function Home({ content }) {
 
 
   useEffect(() => {
-    if (mousePosition && globalContainerRef.current) {
+    if (mousePosition) {
       window.addEventListener("mousemove", function () {
-        console.log(mousePosition)
-        globalContainerRef.current.style.transform = `translate(${(-mousePosition.current.mouse.pageX + (window.innerWidth / 2)) / 10}px, ${(-mousePosition.current.mouse.pageY + (window.innerHeight / 2)) / 10}px)`
+          document.body.style.transform = `translate(${(-mousePosition.current.mouse.pageX + (window.innerWidth / 2))/10}px, ${(-mousePosition.current.mouse.pageY + (window.innerHeight / 2)) / 10}px)`
       })
     }
   }, [mousePosition])
-
-  console.log(content)
 
   return (
     <div ref={globalContainerRef} {...swipeHandlers} className='swiper--control'>
@@ -92,7 +89,7 @@ export default function Home({ content }) {
           {/* <ThreeCanvasPage key={'3d-page'} ref={pageRefs} index={0} swipeIndex={swipeData.index} model={'/assets/3d/monkey.glb'} /> */}
         </AnimatePresence>
       </div>
-      <Candle />
+      {/* <Candle /> */}
     </div>
   )
 };

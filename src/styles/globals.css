@@ -4,13 +4,15 @@ body {
   padding: 0;
   width: 100%;
   background-color: green;
+  overflow: hidden;
   /* cursor: none; */
-  user-select: none;
+  /* user-select: none; */
   /* overflow: hidden; */
 }
 
 .text--body {
   padding: 7vh;
+  user-select: none;
 }
 
 /* body::-webkit-scrollbar {
@@ -42,6 +44,8 @@ body {
   height: inherit;
   width: inherit;
   position: fixed;
+  top: -500vh;
+  left: -500vw;
 }
 
 .container--background-images {
@@ -60,13 +64,12 @@ body {
   opacity: 0.8;
 }
 
-/* .swipe--control {
+.swiper--control {
   width: 100vw;
   height: 100vh;
   position: fixed;
-  pointer-events: none;
-  user-select: none;
-} */
+  z-index: 100;
+}
 
 /* ------------ PAGE ------------- */
 
@@ -84,6 +87,7 @@ body {
 .vignette {
   position: fixed;
   pointer-events: none;
+  user-select: none;
   top: -50vh;
   top: -50dvh;
   right: -50vw;
