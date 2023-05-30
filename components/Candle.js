@@ -7,8 +7,6 @@ export default function Candle({eyeController}) {
     const vignetteRef = useRef()
     const candleContainerRef = useRef()
     const candleRef = useRef()
-
-    console.log(eyeController)
     
     useEffect(() => {
         function setVignettePosition(e) {

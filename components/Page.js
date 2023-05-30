@@ -19,8 +19,6 @@ const Page = forwardRef(({
     const PortableTextComponents = {
         marks: {
             footnote: (children, value) => {
-                console.log(children)
-                console.log(footnotes)
                 return (
                     footnotes.map((footnotes) => {
                         if (children.value['_ref'] === footnotes['_id']) {

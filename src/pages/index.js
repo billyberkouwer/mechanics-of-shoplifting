@@ -12,7 +12,7 @@ import { isMobile } from 'react-device-detect';
 import Image from 'next/image';
 
 
-export default function Home({ content }) {
+export default function Home({ content, pageOrder }) {
   const [swipeData, setSwipeData] = useState({ index: 0, direction: undefined });
   const pageRefs = useRef([]);
   const pagesContainerRef = useRef();
@@ -21,7 +21,7 @@ export default function Home({ content }) {
   const scrollAmount = useRef(0);
   const windowSize = useWindowSize();
   const mousePosition = useMousePosition();
-  const [eyeController, setEyeController] = useState({backward: false, visible: false})
+  const [eyeController, setEyeController] = useState({ backward: false, visible: false })
   const [isDesktop, setIsDesktop] = useState(undefined);
 
   function handleSwipe(e) {
@@ -40,10 +40,6 @@ export default function Home({ content }) {
     }
   }
 
-  function handleMouseOver(e) {
-
-  }
-
   useEffect(() => {
     if (isMobile) {
       setIsDesktop(false);
@@ -55,15 +51,16 @@ export default function Home({ content }) {
 
   useEffect(() => {
     if (swipeData.direction === 'Left') {
-      scrollAmount.current = scrollAmount.current + pageRefs.current[swipeData.index].offsetWidth;
+      scrollAmount.current = scrollAmount.current + pageRefs.current[swipeData.index - 1].offsetWidth;
     }
     if (swipeData.direction === 'Right') {
       scrollAmount.current = scrollAmount.current - pageRefs.current[swipeData.index].offsetWidth;
     }
     if (pageRefs.current.length) {
       pagesContainerRef.current.style.transform = `translateX(${-scrollAmount.current}px)`;
-      backgroundContainerRef.current.forEach((container) => { container.style.transform = `translateX(${-scrollAmount.current}px)` })
     }
+    console.log(swipeData)
+    console.log(pageRefs.current[swipeData.index].offsetWidth)
   }, [swipeData])
 
   useEffect(() => {
@@ -94,26 +91,36 @@ export default function Home({ content }) {
     }
   }, [mousePosition])
 
+  useEffect(() => {
+    console.log(content)
+  }, [content])
+
   return (
     <>
-      <div 
+      <div
         className={`click-area-left ${isDesktop ? null : 'hidden'}`}
-        onMouseEnter={() =>{swipeData.index < content.length - 1 && setEyeController({backward: false, visible: true})}} 
-        onMouseLeave={() => setEyeController({backward: false, visible: false})} 
-        onClick={() => handleSwipe({ dir: 'Left' })} 
-        />
-      <div 
+        onMouseEnter={() => { swipeData.index < content.length - 1 && setEyeController({ backward: false, visible: true }) }}
+        onMouseLeave={() => setEyeController({ backward: false, visible: false })}
+        onClick={() => handleSwipe({ dir: 'Left' })}
+      />
+      <div
         className={`click-area-right ${isDesktop ? null : 'hidden'}`}
-        onMouseEnter={() => swipeData.index > 0 && setEyeController({backward: true, visible: true})} 
-        onMouseLeave={() => setEyeController({backward: true, visible: false})} 
-        onClick={() => handleSwipe({ dir: 'Right' })} 
-        />
+        onMouseEnter={() => swipeData.index > 0 && setEyeController({ backward: true, visible: true })}
+        onMouseLeave={() => setEyeController({ backward: true, visible: false })}
+        onClick={() => handleSwipe({ dir: 'Right' })}
+      />
       <div ref={globalContainerRef} {...swipeHandlers} className='swiper--control'>
-        <Background windowSize={windowSize} ref={backgroundContainerRef} />
         <div className='container--pages' ref={pagesContainerRef}  >
+          <Background windowSize={windowSize} ref={backgroundContainerRef} />
           <AnimatePresence>
             {content.map((page, index) => {
-              console.log(page)
+              if (page["_type"] === 'homepage') {
+                return (
+                  <div ref={el => pageRefs.current[index] = el} key="homepage" className='container--homepage'>
+                    <h1>{page.siteTitle}</h1>
+                  </div>
+                )
+              }
               return (
                 <Page key={'page' + index} ref={pageRefs} index={index} swipeIndex={swipeData.index} content={page.content} footnotes={page.references} />
               )
@@ -122,7 +129,7 @@ export default function Home({ content }) {
             {/* <ThreeCanvasPage key={'3d-page'} ref={pageRefs} index={0} swipeIndex={swipeData.index} model={'/assets/3d/monkey.glb'} /> */}
           </AnimatePresence>
         </div>
-        <Candle eyeController={eyeController}/>
+        <Candle eyeController={eyeController} />
       </div>
     </>
   )
@@ -140,31 +147,33 @@ export async function getStaticProps() {
   const references = await client.fetch('*[_type == "references"]');
   const content = [];
 
-  if (pageOrder.length) {
-    if (pageOrder[0].pages.length) {
-      pageOrder[0].pages.forEach((orderedPage, index) => {
-        pages.forEach((page, i) => {
-          if (orderedPage['_ref'] === page['_id']) {
-            content.push(page);
-            page.references = [];
-            page.content.forEach((block) => {
-              block.markDefs.forEach((mark) => {
-                references.forEach((reference) => {
-                  if (mark['_ref'] === reference['_id']) {
-                    content[index].references.push(reference);
-                  }
-                })
-              })
-            })
-          }
-        });
+  const promises = pageOrder[0].pages.map(async (page) => await client.fetch(`*[_id == "${page['_ref']}"]`))
+  const response = await Promise.all(promises);
+
+
+
+  response.forEach((page, i) => {
+    content.push(...page);
+    content[i].references = [];
+    if (page['_type'] === 'page') {
+      page.content.forEach((block) => {
+        block.markDefs.forEach(mark => {
+          references.forEach(footnote => {
+            if (footnote['_ref'] === mark['_id']) {
+              content[i].references.push(footnote);
+            }
+          })
+        })
       })
     }
-  }
+  })
+
+  console.log(references)
 
   return {
     props: {
       content: content,
+      pageOrder: pageOrder
     },
     revalidate: 10,
   }
