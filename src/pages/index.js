@@ -181,6 +181,6 @@ export async function getStaticProps() {
       content: content,
       pageOrder: pageOrder
     },
-    revalidate: 10,
+    revalidate: 60,
   }
 }

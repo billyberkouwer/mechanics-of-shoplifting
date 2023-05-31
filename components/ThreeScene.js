@@ -4,29 +4,17 @@ import Image from "next/image"
 import { forwardRef, useEffect, useRef, useState } from "react"
 import { motion } from "framer-motion"
 import { isMobile } from "react-device-detect"
-import { AnimationMixer } from "three"
 
 function Mesh({ model }) {
-    const { scene, animations, actions } = useGLTF(model);
-    let mixer = new AnimationMixer(scene);
-    const [initialRender, setInitialRender] = useState(true);
+    const { scene } = useGLTF(model);
 
-    // animations.forEach((clip) => {
-    //     const action = mixer.clipAction(clip);
-    //     action.play();
-    // });
-
-    useEffect(() => {
-        setInitialRender(false)
-    }, [])
-
-    const firstTargetDirection = useRef('descreasing')
+    const firstTargetDirection = useRef('decreasing')
     const firstTarget = useRef(100);
     const firstMorphTargetAmount = useRef(0);
 
     const secondTargetDirection = useRef('increasing')
     const secondTarget = useRef(50);
-    const secondMorphTargetAmount = useRef(4.7);
+    const secondMorphTargetAmount = useRef((4));
 
     useFrame((state, delta) => {
         const speed = 2.5;
@@ -35,40 +23,40 @@ function Mesh({ model }) {
         if (scene?.children[0]?.morphTargetInfluences?.length) {
             scene.children[0].morphTargetInfluences[firstTarget.current] = firstMorphFactor;
             if (firstTargetDirection.current === 'increasing') {
-                if (firstMorphFactor > 0.999) {
+                if (firstMorphFactor > 0.99) {
                     firstTargetDirection.current = 'decreasing';
                 }
             }
+
             if (firstTargetDirection.current === 'decreasing') {
-                if (firstMorphFactor < 0.001) {
+                if (firstMorphFactor < 0.01) {
                     scene.children[0].morphTargetInfluences[firstTarget.current] = 0;
                     firstTarget.current = Math.floor(Math.random() * scene.children[0].morphTargetInfluences.length);
                     firstTargetDirection.current = 'increasing';
+
                 }
             }
         }
+
 
         const secondMorphFactor = (Math.sin(secondMorphTargetAmount.current) + 1) / 2;
         secondMorphTargetAmount.current = secondMorphTargetAmount.current + (delta*speed);
         if (scene?.children[0]?.morphTargetInfluences?.length) {
             scene.children[0].morphTargetInfluences[secondTarget.current] = secondMorphFactor;
             if (secondTargetDirection.current === 'increasing') {
-                if (secondMorphFactor > 0.999) {
+                if (secondMorphFactor > 0.99) {
                     secondTargetDirection.current = 'decreasing';
                 }
             }
             if (secondTargetDirection.current === 'decreasing') {
-                if (secondMorphFactor < 0.001) {
+                if (secondMorphFactor < 0.01) {
                     scene.children[0].morphTargetInfluences[secondTarget.current] = 0;
                     secondTarget.current = Math.floor(Math.random() * scene.children[0].morphTargetInfluences.length);
                     secondTargetDirection.current = 'increasing';
                 }
             }
         }
-
-        // console.log(scene.children[0].morphTargetInfluences);
-        
-        console.log({firstMorphFactor: firstMorphFactor, secondMorphFactor: secondMorphFactor})
+        console.log(scene.children[0].morphTargetInfluences);
     });
 
 
