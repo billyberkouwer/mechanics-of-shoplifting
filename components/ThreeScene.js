@@ -14,13 +14,14 @@ function Mesh({ model }) {
 
     const secondTargetDirection = useRef('increasing')
     const secondTarget = useRef(50);
-    const secondMorphTargetAmount = useRef((4));
+    const secondMorphTargetAmount = useRef((4.3));
 
     useFrame((state, delta) => {
         const speed = 2.5;
         const firstMorphFactor = (Math.cos(firstMorphTargetAmount.current) + 1) / 2;
         firstMorphTargetAmount.current = firstMorphTargetAmount.current + (delta*speed);
         if (scene?.children[0]?.morphTargetInfluences?.length) {
+            scene.children[0].morphTargetInfluences.forEach((morphTarget) => {morphTarget = 0})
             scene.children[0].morphTargetInfluences[firstTarget.current] = firstMorphFactor;
             if (firstTargetDirection.current === 'increasing') {
                 if (firstMorphFactor > 0.99) {
@@ -61,7 +62,7 @@ function Mesh({ model }) {
 
 
     return (
-        <primitive key={scene} object={scene} scale={[4, 4, 4]} position={[0, -1.5, 0]} />
+        <primitive key={scene} object={scene} scale={[4, 4, 4]} position={[0, 0, 0]} />
     )
 }
 
@@ -86,9 +87,12 @@ const ThreeScene = forwardRef(({
             <div style={{ position: 'fixed', zIndex: -1, height: '100%', width: '100%', top: 0, left: 0 }}>
                 <Image src={"/assets/paper.png"} fill alt={'old paper sheet'} />
             </div>
-            <Canvas>
-                <pointLight />
-                <pointLight position={[0, 0, 2]} />
+            <Canvas camera={{fov: 30, position: [0,0,15]}}>
+                <pointLight position={[0, 0, -4]} />
+                <pointLight position={[0, 0, 4]} />
+                <pointLight position={[4, 0, 0]} intensity={0.25} />
+                <pointLight position={[-4, 0, 0]} intensity={0.25}/>
+                <pointLight position={[0, 4, 0]} intensity={0.75}/>
                 <Mesh model={model} />
                 <OrbitControls />
             </Canvas>
