@@ -120,7 +120,7 @@ export default function Home({ content, pageOrder }) {
               }
               if (page["_type"] === "threePage") {
                 return (
-                  <ThreeScene key={'three-scene'} model={page.model.modelUrl} ref={pageRefs} index={index} />
+                  <ThreeScene key={'three-scene' + index} model={page.model.modelUrl} ref={pageRefs} index={index} />
                 )
               }
               return (
@@ -146,7 +146,7 @@ export async function getStaticProps() {
   const pageOrder = await client.fetch(`*[_type == "pageOrder"]`);
   const references = await client.fetch('*[_type == "references"]');
   const threeModels = await client.fetch(`*[_type == "threePage"]{
-    id,
+    _id,
     "modelUrl": threeFile.asset->url
   }`);
   const content = [];
@@ -159,9 +159,8 @@ export async function getStaticProps() {
     content[i].references = [];
     if (page[0]['_type'] === 'threePage') {
       threeModels.forEach(model => {
-        if (model['_id'] === model['_id']) {
+        if (page[0]['_id'] === model['_id']) {
           content[i].model = model;
-          console.log(model)
         }
       })
     }

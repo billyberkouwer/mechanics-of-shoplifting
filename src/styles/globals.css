@@ -6,7 +6,7 @@ body {
   background-color: green;
   overflow: hidden;
   /* cursor: none; */
-  /* user-select: none; */
+  user-select: none;
 }
 
 h1 {
@@ -60,6 +60,7 @@ body {
   opacity: 1;
   width: 1000vw;
   height: 1000vh;
+  user-select: none;
 }
 
 .container--background-wall {
