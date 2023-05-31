@@ -12,6 +12,7 @@ import Image from 'next/image';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
 import ThreeScene from '../../components/ThreeScene';
+import Eye from '../../components/Eye';
 
 
 export default function Home({ content, pageOrder }) {
@@ -25,6 +26,7 @@ export default function Home({ content, pageOrder }) {
   const mousePosition = useMousePosition();
   const [eyeController, setEyeController] = useState({ backward: false, visible: false })
   const [isDesktop, setIsDesktop] = useState(undefined);
+  const eye = useRef();
 
   function handleSwipe(e) {
     if (e.dir === 'Left' && swipeData.index < content.length - 1) {

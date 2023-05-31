@@ -58,8 +58,8 @@ body {
   transition: transform 0.5s ease-in-out;
   background-size: contain;
   opacity: 1;
-  width: 1000vw;
-  height: 1000vh;
+  width: 100040px;
+  height: 100040px;
   user-select: none;
 }
 
@@ -108,7 +108,7 @@ body {
   min-height: 100vh;
   min-height: 100svh;
   transition: transform 0.5s ease-in-out;
-  user-select: none;
+  user-select: text;
 }
 
 .text--body {
@@ -149,12 +149,12 @@ body {
   position: fixed;
   pointer-events: none;
   user-select: none;
-  top: -50vh;
-  top: -50dvh;
-  right: -50vw;
-  width: 200vw;
-  height: 200vh;
-  height: 200dvh;
+  top: -75vh;
+  top: -75dvh;
+  right: -75vw;
+  width: 250vw;
+  height: 250vh;
+  height: 250dvh;
   background: rgb(0, 0, 0);
   background: -moz-radial-gradient(circle, rgba(0, 0, 0, 0) 33%, rgba(0, 0, 0, 0.8883928571428571) 73%);
   background: -webkit-radial-gradient(circle, rgba(0, 0, 0, 0) 33%, rgba(0, 0, 0, 0.8883928571428571) 73%);
@@ -175,6 +175,10 @@ body {
 .eye {
   opacity: 0;
   transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+}
+
+svg {
+  filter: drop-shadow(0px 0px 10px rgb(255 255 255));
 }
 
 .container--canvas {
@@ -218,6 +222,7 @@ body {
   width: 40vw;
   height: 140vh;
   z-index: 1000;
+  cursor: pointer;
 }
 
 .click-area-right {
@@ -227,4 +232,5 @@ body {
   width: 40vw;
   height: 140vh;
   z-index: 1000;
+  cursor: pointer;
 }

@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react"
 import useMousePosition from "../hooks/useMousePosition"
 import Image from "next/image"
 import { isMobile } from "react-device-detect"
+import{ Eye }from "./Eye"
 
 export default function Candle({eyeController}) {
     const vignetteRef = useRef()
@@ -53,7 +54,7 @@ export default function Candle({eyeController}) {
         <>
             <div className='vignette' ref={vignetteRef} />
             <div  className="eye--container" ref={candleContainerRef} >
-                <Image src="assets/eye-2.svg" className="eye" ref={candleRef} alt={'candle mouse illuminator'} width={100} height={100} sizes="100px"  />
+                <Eye ref={candleRef} strokeColor={"black"} />
             </div>
         </>
     )
