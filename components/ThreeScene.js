@@ -16,49 +16,51 @@ function Mesh({ model }) {
     const secondTarget = useRef(50);
     const secondMorphTargetAmount = useRef((4.3));
 
+
     useFrame((state, delta) => {
-        const speed = 2.5;
-        const firstMorphFactor = (Math.cos(firstMorphTargetAmount.current) + 1) / 2;
-        firstMorphTargetAmount.current = firstMorphTargetAmount.current + (delta*speed);
-        if (scene?.children[0]?.morphTargetInfluences?.length) {
-            scene.children[0].morphTargetInfluences.forEach((morphTarget) => {morphTarget = 0})
-            scene.children[0].morphTargetInfluences[firstTarget.current] = firstMorphFactor;
-            if (firstTargetDirection.current === 'increasing') {
-                if (firstMorphFactor > 0.99) {
-                    firstTargetDirection.current = 'decreasing';
+        scene.children.forEach(mesh => {
+            if (mesh.morphTargetInfluences) {
+                const speed = 2.5;
+                const firstMorphFactor = (Math.cos(firstMorphTargetAmount.current) + 1) / 2;
+                firstMorphTargetAmount.current = firstMorphTargetAmount.current + (delta * speed);
+                mesh.morphTargetInfluences.forEach((morphTarget) => { morphTarget = 0 })
+                mesh.morphTargetInfluences[firstTarget.current] = firstMorphFactor;
+                if (firstTargetDirection.current === 'increasing') {
+                    if (firstMorphFactor > 0.99) {
+                        firstTargetDirection.current = 'decreasing';
+                    }
+                }
+
+                if (firstTargetDirection.current === 'decreasing') {
+                    if (firstMorphFactor < 0.01) {
+                        mesh.morphTargetInfluences[firstTarget.current] = 0;
+                        firstTarget.current = Math.floor(Math.random() * mesh.morphTargetInfluences.length);
+                        firstTargetDirection.current = 'increasing';
+
+                    }
+                }
+
+
+                const secondMorphFactor = (Math.sin(secondMorphTargetAmount.current) + 1) / 2;
+                secondMorphTargetAmount.current = secondMorphTargetAmount.current + (delta * speed);
+                mesh.morphTargetInfluences[secondTarget.current] = secondMorphFactor;
+                if (secondTargetDirection.current === 'increasing') {
+                    if (secondMorphFactor > 0.99) {
+                        secondTargetDirection.current = 'decreasing';
+                    }
+                }
+                if (secondTargetDirection.current === 'decreasing') {
+                    if (secondMorphFactor < 0.01) {
+                        mesh.morphTargetInfluences[secondTarget.current] = 0;
+                        secondTarget.current = Math.floor(Math.random() * mesh.morphTargetInfluences.length);
+                        secondTargetDirection.current = 'increasing';
+                    }
                 }
             }
-
-            if (firstTargetDirection.current === 'decreasing') {
-                if (firstMorphFactor < 0.01) {
-                    scene.children[0].morphTargetInfluences[firstTarget.current] = 0;
-                    firstTarget.current = Math.floor(Math.random() * scene.children[0].morphTargetInfluences.length);
-                    firstTargetDirection.current = 'increasing';
-
-                }
-            }
-        }
-
-
-        const secondMorphFactor = (Math.sin(secondMorphTargetAmount.current) + 1) / 2;
-        secondMorphTargetAmount.current = secondMorphTargetAmount.current + (delta*speed);
-        if (scene?.children[0]?.morphTargetInfluences?.length) {
-            scene.children[0].morphTargetInfluences[secondTarget.current] = secondMorphFactor;
-            if (secondTargetDirection.current === 'increasing') {
-                if (secondMorphFactor > 0.99) {
-                    secondTargetDirection.current = 'decreasing';
-                }
-            }
-            if (secondTargetDirection.current === 'decreasing') {
-                if (secondMorphFactor < 0.01) {
-                    scene.children[0].morphTargetInfluences[secondTarget.current] = 0;
-                    secondTarget.current = Math.floor(Math.random() * scene.children[0].morphTargetInfluences.length);
-                    secondTargetDirection.current = 'increasing';
-                }
-            }
-        }
-        console.log(scene.children[0].morphTargetInfluences);
+        });
     });
+
+
 
 
     return (
@@ -87,12 +89,12 @@ const ThreeScene = forwardRef(({
             <div style={{ position: 'fixed', zIndex: -1, height: '100%', width: '100%', top: 0, left: 0 }}>
                 <Image src={"/assets/paper.png"} fill alt={'old paper sheet'} />
             </div>
-            <Canvas camera={{fov: 30, position: [0,0,15]}}>
+            <Canvas camera={{ fov: 30, position: [0, 0, 15] }}>
                 <pointLight position={[0, 0, -4]} />
                 <pointLight position={[0, 0, 4]} />
                 <pointLight position={[4, 0, 0]} intensity={0.25} />
-                <pointLight position={[-4, 0, 0]} intensity={0.25}/>
-                <pointLight position={[0, 4, 0]} intensity={0.75}/>
+                <pointLight position={[-4, 0, 0]} intensity={0.25} />
+                <pointLight position={[0, 4, 0]} intensity={0.75} />
                 <Mesh model={model} />
                 <OrbitControls />
             </Canvas>
