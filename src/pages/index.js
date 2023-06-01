@@ -77,7 +77,7 @@ export default function Home({ content, pageOrder }) {
   }, [])
 
   const swipeHandlers = useSwipeable({
-    onSwiped: (e) => handleSwipe(e),
+    onSwiped: (e) => {if (e.velocity > 1.1) {handleSwipe(e); console.log(e)}},
   });
 
 
