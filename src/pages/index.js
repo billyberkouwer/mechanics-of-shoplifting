@@ -77,7 +77,7 @@ export default function Home({ content, pageOrder }) {
   }, [])
 
   const swipeHandlers = useSwipeable({
-    onSwiped: (e) => {if (e.velocity > 1.1) {handleSwipe(e); console.log(e)}},
+    onSwiped: (e) => {if (content[swipeData.index]['_type'] === "threePage") { if (e.velocity > 1.05) {handleSwipe(e)}} else {handleSwipe(e)}},
   });
 
 
