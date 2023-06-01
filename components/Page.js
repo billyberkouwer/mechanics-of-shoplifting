@@ -26,6 +26,11 @@ const Page = forwardRef(({
                         }
                     })
                 )
+            },
+            superscript: (children, value) => {
+                return (
+                    <span style={{fontSize: '0.65em', position: 'relative', top: '-0.5em'}}>{children.text}</span>
+                )
             }
         },
     }

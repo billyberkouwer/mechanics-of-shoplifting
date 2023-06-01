@@ -63,7 +63,6 @@ export default function Home({ content, pageOrder }) {
     if (pageRefs.current.length) {
       pagesContainerRef.current.style.transform = `translateX(${-scrollAmount.current}px)`;
     }
-    console.log(pageRefs)
   }, [swipeData])
 
   useEffect(() => {
@@ -83,16 +82,18 @@ export default function Home({ content, pageOrder }) {
 
 
   useEffect(() => {
-    function callback() {
-      document.body.style.transform = `translate(${(-mousePosition.current.mouse.pageX + (window.innerWidth / 2)) / 10}px, ${(-mousePosition.current.mouse.pageY + (window.innerHeight / 2)) / 10}px)`
-    }
-    if (mousePosition && !isMobile) {
-      window.addEventListener("mousemove", callback)
-      return () => {
-        window.removeEventListener("mousemove", callback)
+    if (isDesktop) {
+      function callback() {
+        document.body.style.transform = `translate(${(-mousePosition.current.mouse.pageX + (window.innerWidth / 2)) / 10}px, ${(-mousePosition.current.mouse.pageY + (window.innerHeight / 2)) / 10}px)`
+      }
+      if (mousePosition && !isMobile) {
+        window.addEventListener("mousemove", callback)
+        return () => {
+          window.removeEventListener("mousemove", callback)
+        }
       }
     }
-  }, [mousePosition])
+  }, [mousePosition, isDesktop])
 
   return (
     <>
@@ -122,7 +123,7 @@ export default function Home({ content, pageOrder }) {
               }
               if (page["_type"] === "threePage") {
                 return (
-                  <ThreeScene key={'three-scene' + index} model={page.model.modelUrl} ref={pageRefs} index={index} />
+                  <ThreeScene pageTitle={page.pageTitle} key={'three-scene' + index} model={page.model.modelUrl} ref={pageRefs} index={index} />
                 )
               }
               return (

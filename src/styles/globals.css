@@ -1,3 +1,9 @@
+@font-face {
+  font-family: MyFont;
+  src: url('/fonts/custom-times.woff'), format('woff'),
+  url('/fonts/custom-times.woff2'), format('woff2'),
+}
+
 body {
   box-sizing: border-box;
   margin: 0;
@@ -7,11 +13,12 @@ body {
   overflow: hidden;
   /* cursor: none; */
   user-select: none;
+
 }
 
 h1 {
   font-size: 1.25em;
-
+  font-family: MyFont;
 }
 
 @media screen and (min-width: 768px) {

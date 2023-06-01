@@ -6,7 +6,7 @@ const SvgComponent = (props, ref) => (
     width={300}
     height={300}
     fill="none"
-    viewBox="-100 -250 800 800"
+    viewBox="-250 -300 1000 1000"
     className="eye"
     ref={el => {if (el) {ref.current = el}}}
     {...props}

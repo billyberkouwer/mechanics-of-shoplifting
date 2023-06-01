@@ -5,7 +5,7 @@ import { forwardRef, useEffect, useRef, useState } from "react"
 import { motion } from "framer-motion"
 import { isMobile } from "react-device-detect"
 
-function Mesh({ model }) {
+function Mesh({ model, pageTitle }) {
     const { scene } = useGLTF(model);
 
     const firstTargetDirection = useRef('decreasing')
@@ -15,7 +15,6 @@ function Mesh({ model }) {
     const secondTargetDirection = useRef('increasing')
     const secondTarget = useRef(50);
     const secondMorphTargetAmount = useRef((4.3));
-
 
     useFrame((state, delta) => {
         scene.children.forEach(mesh => {
@@ -57,6 +56,7 @@ function Mesh({ model }) {
                     }
                 }
             }
+                
         });
     });
 
@@ -70,7 +70,8 @@ function Mesh({ model }) {
 
 const ThreeScene = forwardRef(({
     model,
-    index
+    index,
+    pageTitle
 }, ref) => {
 
     const [pageRotation, setPageRotation] = useState({ start: undefined, end: undefined });
@@ -95,7 +96,7 @@ const ThreeScene = forwardRef(({
                 <pointLight position={[4, 0, 0]} intensity={0.25} />
                 <pointLight position={[-4, 0, 0]} intensity={0.25} />
                 <pointLight position={[0, 4, 0]} intensity={0.75} />
-                <Mesh model={model} />
+                <Mesh pageTitle={pageTitle} model={model} />
                 <OrbitControls />
             </Canvas>
         </motion.div>
