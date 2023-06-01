@@ -20,6 +20,9 @@ body {
 
 h1 {
   font-size: 1.25em;
+  background-color: white;
+  padding: 10px;
+  color: black;
 }
 
 @media screen and (min-width: 768px) {
@@ -66,13 +69,13 @@ body {
   transition: transform 0.5s ease-in-out;
   background-size: contain;
   opacity: 1;
-  width: 100040px;
-  height: 100040px;
+  width: 100000px;
+  height: 100000px;
   user-select: none;
 }
 
 .container--background-wall {
-  background-image: url('/assets/bg-image.jpg');
+  background-image: url('/assets/brick-2.jpg');
   background-size: 100vh;
   background-repeat: repeat;
   height: inherit;
@@ -94,13 +97,20 @@ body {
   display: flex;
   align-items: center;
   flex-direction: row;
-  mix-blend-mode: difference;
-  opacity: 0.8;
+  opacity: 0.9;
 }
 
-/* .container--background-images img {
+.overlay {
+  mix-blend-mode: overlay;
+}
+
+.exclusion {
+  mix-blend-mode:exclusion;
+}
+
+.difference {
   mix-blend-mode: difference;
-} */
+}
 
 .swiper--control {
   width: 100vw;
@@ -149,7 +159,9 @@ body {
   left: calc(50% - min(calc(85svh * 0.7), 90vw)/2);
   min-width: min(calc(85vh * 0.7), 90vw);
   min-width: min(calc(85svh * 0.7), 90vw);
-  opacity: 0.9;
+  opacity: 1;
+  /* mix-blend-mode: lighten; */
+
 }
 
 ::-webkit-scrollbar {
@@ -255,7 +267,7 @@ canvas {
 .click-area-left {
   position: fixed;
   top: -20vh;
-  left: 80vw;
+  left: 87.5vw;
   width: 40vw;
   height: 140vh;
   z-index: 1000;
@@ -265,7 +277,7 @@ canvas {
 .click-area-right {
   position: fixed;
   top: -20vh;
-  left: -20vw;
+  left: -12.5vw;
   width: 40vw;
   height: 140vh;
   z-index: 1000;
