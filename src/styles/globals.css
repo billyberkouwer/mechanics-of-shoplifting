@@ -1,7 +1,8 @@
 @font-face {
-  font-family: MyFont;
-  src: url('/fonts/custom-times.woff'), format('woff'),
-  url('/fonts/custom-times.woff2'), format('woff2'),
+  font-family: 'My Custom Font';
+  src: 
+  url('/fonts/custom-times.woff'), format('woff'),
+  url('/fonts/custom-times.woff2'), format('woff2');
 }
 
 body {
@@ -13,12 +14,12 @@ body {
   overflow: hidden;
   /* cursor: none; */
   user-select: none;
+  font-family: 'My Custom Font', 'Times New Roman', Times, serif;
 
 }
 
 h1 {
   font-size: 1.25em;
-  font-family: MyFont;
 }
 
 @media screen and (min-width: 768px) {
