@@ -115,6 +115,8 @@ body {
   width: 100vw;
   min-height: 100vh;
   min-height: 100svh;
+  height: 100vh;
+  height: 100svh;
   transition: transform 0.5s ease-in-out;
   user-select: text;
 }
@@ -122,7 +124,7 @@ body {
 .text--body {
   box-sizing: border-box;
   padding: 5vh;
-  overflow-y: scroll;
+  overflow-y: auto;
   height: 85vh;
   height: 85svh;
 }
@@ -144,6 +146,24 @@ body {
   min-width: min(calc(85vh * 0.7), 90vw);
   min-width: min(calc(85svh * 0.7), 90vw);
   opacity: 0.9;
+}
+
+::-webkit-scrollbar {
+  width: 12px;     
+  /* width of the entire scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 20px;   
+  border: 2px dashed rgb(36, 36, 26); 
+
+}
+
+::-webkit-scrollbar-thumb {
+  background:  rgb(175, 175, 150);    /* color of the scroll thumb */
+  border-radius: 20px;    
+  border: 2px solid rgb(122, 122, 90); 
+
 }
 
 .content-container--page {
