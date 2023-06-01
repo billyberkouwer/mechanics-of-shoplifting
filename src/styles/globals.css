@@ -98,6 +98,10 @@ body {
   opacity: 0.8;
 }
 
+/* .container--background-images img {
+  mix-blend-mode: difference;
+} */
+
 .swiper--control {
   width: 100vw;
   height: 100vh;
@@ -221,6 +225,11 @@ svg {
   /* display: flex;
   justify-content: center;
   align-items: center; */
+}
+
+canvas {
+  transition: filter 0.5s linear;
+  -webkit-transition : -webkit-filter 500ms linear
 }
 
 .container--3d-page {

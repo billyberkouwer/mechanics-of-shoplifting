@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useMemo, useRef } from "react";
 import { useGLTF, useAnimations, MeshReflectorMaterial, MeshTransmissionMaterial, useTexture, MeshRefractionMaterial } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { Color, CubeTextureLoader } from "three";
@@ -6,7 +6,7 @@ import { Color, CubeTextureLoader } from "three";
 export default function Skirt({ model, pageTitle }) {
   const { scene, materials, nodes } = useGLTF(model);
   const ref = useRef();
-  const texture = new CubeTextureLoader().setPath('/assets/').load(['square.jpg', 'square.jpg', 'square.jpg', 'square.jpg', 'square.jpg', 'square.jpg',]);
+  const texture = useMemo(() => new CubeTextureLoader().setPath('/assets/').load(['square.jpg', 'square.jpg', 'square.jpg', 'square.jpg', 'square.jpg', 'square.jpg',]), [])
 
   const firstTargetDirection = useRef('decreasing')
   const firstTarget = useRef(100);
@@ -16,7 +16,7 @@ export default function Skirt({ model, pageTitle }) {
   const secondMorphTargetAmount = useRef((4.3));
 
   useFrame((state, delta) => {
-      ref.current.rotation.y += delta/4;
+      ref.current.rotation.y += delta/9;
       scene.children.forEach(mesh => {
           if (mesh.morphTargetInfluences) {
               const speed = 3.5;
@@ -78,7 +78,8 @@ export default function Skirt({ model, pageTitle }) {
                   geometry={nodes.dress_body.geometry}
                   material={materials["default"]}
               >
-                  <MeshRefractionMaterial envMap={texture} bounces={2} ior={1.25} fastChroma fresnel={10} />
+                  {/* <MeshRefractionMaterial envMap={texture} bounces={1} ior={1.25} fastChroma /> */}
+                  <MeshTransmissionMaterial background={texture} transmission={1} chromaticAberration={0.2} distortion={2} thickness={10} distortionScale={0.5} roughness={0.2}/>
               </mesh>
               <mesh
                   name="dress_opti_ani"
@@ -89,6 +90,13 @@ export default function Skirt({ model, pageTitle }) {
                   morphTargetDictionary={nodes.dress_opti_ani.morphTargetDictionary}
                   morphTargetInfluences={nodes.dress_opti_ani.morphTargetInfluences}
               />
+              {/* <mesh
+                position={[0, -0.69, 0]}
+                rotation={[-Math.PI/2,0,0]}
+              >
+                <planeBufferGeometry args={[100,100, 100, 100]} />
+                <meshStandardMaterial wireframe color={'beige'} receiveShadow={false} />
+              </mesh> */}
           </group>
       </group>
   )

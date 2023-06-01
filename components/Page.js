@@ -6,12 +6,8 @@ import Image from "next/image";
 import { isMobile } from "react-device-detect";
 
 const Page = forwardRef(({
-    windowSize,
-    index,
-    swipeIndex,
     footnotes,
     content,
-    model
 }, ref) => {
     const [pageRotation, setPageRotation] = useState({ start: undefined, end: undefined });
     const pageElementsRef = useRef([]);
@@ -45,7 +41,7 @@ const Page = forwardRef(({
     }, [])
 
     return (
-        <motion.div className='container--page' ref={el => ref.current[index] = el} initial={{ scale: 2, rotateZ: pageRotation.start }} transition={{ duration: 0.5 }} animate={{ scale: 1, rotateZ: pageRotation.end }}>
+        <motion.div className='container--page' ref={el => {if (el) {ref.current.push(el)}}} initial={{ scale: 2, rotateZ: pageRotation.start }} transition={{ duration: 0.5 }} animate={{ scale: 1, rotateZ: pageRotation.end }}>
             <div style={{position: 'fixed', zIndex: -1, height: '100%', width: '100%', top: 0, left: 0}}>
                 <Image src={"/assets/paper.png"} fill />
             </div>

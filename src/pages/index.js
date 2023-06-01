@@ -111,17 +111,17 @@ export default function Home({ content, pageOrder }) {
               }
               if (page["_type"] === "threePage") {
                 return (
-                  <ThreeScene pageTitle={page.pageTitle} key={'three-scene' + index} model={page.model.modelUrl} ref={pageRefs} index={index} />
+                  <ThreeScene isActive={swipeData.index === index || swipeData.index === index - 1 ? true : false} pageTitle={page.pageTitle} key={'three-scene' + index} model={page.model.modelUrl} ref={pageRefs} />
                 )
               }
               return (
-                <Page key={'page' + index} ref={pageRefs} index={index} swipeIndex={swipeData.index} content={page.content} footnotes={page.references} />
+                <Page key={'page' + index} ref={pageRefs} swipeIndex={swipeData.index} content={page.content} footnotes={page.references} />
               )
             }
             )}
           </AnimatePresence>
         </div>
-        <Navigation setSwipeData={setSwipeData} isDesktop={isDesktop} swipeData={swipeData} handleSwipe={handleSwipe} contentLength={content.length}/>
+        <Navigation setSwipeData={setSwipeData} isDesktop={isDesktop} swipeData={swipeData} handleSwipe={handleSwipe} contentLength={content.length} />
       </div>
     </>
   )
@@ -161,7 +161,8 @@ export async function getStaticProps() {
           references.forEach(ref => {
             if (ref['_id'] === mark['_ref'] && mark['_ref']) {
               content[i].references.push(ref);
-            }})
+            }
+          })
         })
       })
     }
