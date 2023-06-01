@@ -13,6 +13,8 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
 import ThreeScene from '../../components/ThreeScene';
 import Eye from '../../components/Eye';
+import ClickableArea from '../../components/Navigation';
+import Navigation from '../../components/Navigation';
 
 
 export default function Home({ content, pageOrder }) {
@@ -24,9 +26,7 @@ export default function Home({ content, pageOrder }) {
   const scrollAmount = useRef(0);
   const windowSize = useWindowSize();
   const mousePosition = useMousePosition();
-  const [eyeController, setEyeController] = useState({ backward: false, visible: false })
   const [isDesktop, setIsDesktop] = useState(undefined);
-  const eye = useRef();
 
   function handleSwipe(e) {
     if (e.dir === 'Left' && swipeData.index < content.length - 1) {
@@ -97,18 +97,6 @@ export default function Home({ content, pageOrder }) {
 
   return (
     <>
-      <div
-        className={`click-area-left ${isDesktop ? null : 'hidden'}`}
-        onMouseEnter={() => { swipeData.index < content.length - 1 && setEyeController({ backward: false, visible: true }) }}
-        onMouseLeave={() => setEyeController({ backward: false, visible: false })}
-        onClick={() => handleSwipe({ dir: 'Left' })}
-      />
-      <div
-        className={`click-area-right ${isDesktop ? null : 'hidden'}`}
-        onMouseEnter={() => swipeData.index > 0 && setEyeController({ backward: true, visible: true })}
-        onMouseLeave={() => setEyeController({ backward: true, visible: false })}
-        onClick={() => handleSwipe({ dir: 'Right' })}
-      />
       <div ref={globalContainerRef} {...swipeHandlers} className='swiper--control'>
         <div className='container--pages' ref={pagesContainerRef}  >
           <Background windowSize={windowSize} ref={backgroundContainerRef} />
@@ -133,7 +121,7 @@ export default function Home({ content, pageOrder }) {
             )}
           </AnimatePresence>
         </div>
-        <Candle eyeController={eyeController} />
+        <Navigation setSwipeData={setSwipeData} isDesktop={isDesktop} swipeData={swipeData} handleSwipe={handleSwipe} contentLength={content.length}/>
       </div>
     </>
   )
