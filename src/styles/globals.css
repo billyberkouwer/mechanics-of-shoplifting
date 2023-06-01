@@ -164,6 +164,21 @@ body {
 
 }
 
+.poster-container {
+  display: none;
+  position: relative;
+}
+
+.block {
+  display: block;
+}
+
+.posters {
+  object-fit: contain;
+   opacity: 1;
+   pointer-events: none;
+}
+
 ::-webkit-scrollbar {
   width: 12px;     
   /* width of the entire scrollbar */
