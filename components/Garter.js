@@ -8,6 +8,7 @@ export default function Garter({ model, pageTitle, isActive }) {
     const ref = useRef();
     const texture = useMemo(() => new CubeTextureLoader().setPath('/assets/').load(['square.jpg', 'square.jpg', 'square.jpg', 'square.jpg', 'square.jpg', 'square.jpg',]), [])
     const clothBump = useTexture('/assets/3d/cloth-bump.jpg');
+    
 
     const firstTargetDirection = useRef('decreasing')
     const firstTarget = useRef(100);
@@ -22,7 +23,7 @@ export default function Garter({ model, pageTitle, isActive }) {
 
     useFrame((state, delta) => {
         if (isActive) {
-            // ref.current.rotation.y += delta / 4;
+            ref.current.rotation.y += delta / 4;
         scene.children.forEach(mesh => {
             if (mesh.morphTargetInfluences) {
                 const speed = 3.5;
