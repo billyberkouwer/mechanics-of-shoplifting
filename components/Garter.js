@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { useGLTF, useAnimations, MeshReflectorMaterial, MeshTransmissionMaterial, useTexture, MeshRefractionMaterial } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { Color, CubeTextureLoader } from "three";
@@ -7,6 +7,7 @@ export default function Garter({ model, pageTitle, isActive }) {
     const { scene, materials, nodes } = useGLTF(model);
     const ref = useRef();
     const texture = useMemo(() => new CubeTextureLoader().setPath('/assets/').load(['square.jpg', 'square.jpg', 'square.jpg', 'square.jpg', 'square.jpg', 'square.jpg',]), [])
+    const clothBump = useTexture('/assets/3d/cloth-bump.jpg');
 
     const firstTargetDirection = useRef('decreasing')
     const firstTarget = useRef(100);
@@ -15,9 +16,13 @@ export default function Garter({ model, pageTitle, isActive }) {
     const secondTarget = useRef(50);
     const secondMorphTargetAmount = useRef((4.3));
 
+    useEffect(() => {
+        console.log(materials)
+    }, [materials])
+
     useFrame((state, delta) => {
         if (isActive) {
-            ref.current.rotation.y += delta / 4;
+            // ref.current.rotation.y += delta / 4;
         scene.children.forEach(mesh => {
             if (mesh.morphTargetInfluences) {
                 const speed = 3.5;
@@ -83,14 +88,16 @@ export default function Garter({ model, pageTitle, isActive }) {
                     material={materials["FABRIC 1_FRONT_442229.002"]}
                     rotation={[Math.PI / 2, 0, 0]}
                     scale={0.01}
-                />
+                >
+                    <meshStandardMaterial color={'rgb(182, 186, 168)'} bumpMap={clothBump} bumpScale={0.003} />
+                </mesh>
                 <mesh
                     name="hooks_opti1"
                     castShadow
                     receiveShadow
                     geometry={nodes.hooks_opti1.geometry}
                     material={materials["default"]}
-                    position={[0.06, 0.17, -0.19]}
+                    position={[0.06, 0.17, -0.195]}
                     rotation={[1.8, 0, 0]}
                     scale={0.02}
                 />
@@ -100,7 +107,7 @@ export default function Garter({ model, pageTitle, isActive }) {
                     receiveShadow
                     geometry={nodes.hooks_opti2.geometry}
                     material={materials["default"]}
-                    position={[0.13, 0.14, -0.03]}
+                    position={[0.135, 0.135, -0.03]}
                     rotation={[Math.PI / 2, 0, 0]}
                     scale={0.02}
                 />
@@ -110,7 +117,7 @@ export default function Garter({ model, pageTitle, isActive }) {
                     receiveShadow
                     geometry={nodes.hooks_opti3.geometry}
                     material={materials["default"]}
-                    position={[0.03, 0.11, 0.07]}
+                    position={[0.03, 0.095, 0.075]}
                     rotation={[1.55, 0, 0]}
                     scale={0.02}
                 />
@@ -120,7 +127,7 @@ export default function Garter({ model, pageTitle, isActive }) {
                     receiveShadow
                     geometry={nodes.hooks_opti4.geometry}
                     material={materials["default"]}
-                    position={[-0.09, 0.1, 0.01]}
+                    position={[-0.10, 0.1, 0.012]}
                     rotation={[Math.PI / 2, 0, 0]}
                     scale={0.02}
                 />
@@ -130,7 +137,7 @@ export default function Garter({ model, pageTitle, isActive }) {
                     receiveShadow
                     geometry={nodes.hooks_opti5.geometry}
                     material={materials["default"]}
-                    position={[-0.13, 0.14, -0.11]}
+                    position={[-0.13, 0.125, -0.11]}
                     rotation={[Math.PI / 2, 0, 0]}
                     scale={0.02}
                 />

@@ -7,6 +7,7 @@ export default function Cape({ model, pageTitle, isActive }) {
     const { scene, materials, nodes } = useGLTF(model);
     const ref = useRef();
     const texture = useMemo(() => new CubeTextureLoader().setPath('/assets/').load(['square.jpg', 'square.jpg', 'square.jpg', 'square.jpg', 'square.jpg', 'square.jpg',]), [])
+    const clothBump = useTexture('/assets/3d/cloth-bump.jpg');
 
     const firstTargetDirection = useRef('decreasing')
     const firstTarget = useRef(100);
@@ -73,7 +74,9 @@ export default function Cape({ model, pageTitle, isActive }) {
                     morphTargetDictionary={nodes["3_z"].morphTargetDictionary}
                     morphTargetInfluences={nodes["3_z"].morphTargetInfluences}
                     position={[0, 0.44, -0.01]}
-                />
+                >
+                    <meshStandardMaterial color={'rgb(89, 41, 54)'} roughness={1} specularColor={'rgb(89, 54, 63)'} bumpMap={clothBump} bumpScale={0.005}/>
+                </mesh>
                 <mesh
                     name="6k_wood_arm"
                     castShadow
@@ -81,7 +84,9 @@ export default function Cape({ model, pageTitle, isActive }) {
                     geometry={nodes["6k_wood_arm"].geometry}
                     material={materials["default.002"]}
                     position={[-0.26, 0.44, 0.08]}
-                />
+                >
+                    <meshStandardMaterial color={'rgb(145, 135, 121)'} roughness={0.1} specularColor={'rgb(89, 54, 63)'}/>
+                </mesh>
                 <mesh
                     name="ornate_leg_base_onlyobj"
                     castShadow
@@ -89,7 +94,9 @@ export default function Cape({ model, pageTitle, isActive }) {
                     geometry={nodes.ornate_leg_base_onlyobj.geometry}
                     material={materials["default"]}
                     position={[0.01, -0.55, 0]}
-                />
+                >
+                    <meshStandardMaterial color={'rgb(31, 15, 19)'} roughness={1} specularColor={'rgb(89, 54, 63)'}/>
+                </mesh>
                 <mesh
                     name="Genesis8_1FemaleShape"
                     castShadow
