@@ -15,6 +15,7 @@ import ThreeScene from '../../components/ThreeScene';
 import Eye from '../../components/Eye';
 import ClickableArea from '../../components/Navigation';
 import Navigation from '../../components/Navigation';
+import Loading from '../../components/Loading';
 
 
 export default function Home({ content, pageOrder, projectInfo }) {
@@ -27,7 +28,8 @@ export default function Home({ content, pageOrder, projectInfo }) {
   const windowSize = useWindowSize();
   const mousePosition = useMousePosition();
   const [isDesktop, setIsDesktop] = useState(undefined);
-  const [isProjectInfoDisplayed, setIsProjectInfoDisplayed] = useState(false)
+  const [isProjectInfoDisplayed, setIsProjectInfoDisplayed] = useState(false);
+  const [isLoading, setIsLoading] = useState(true)
 
   function handleSwipe(e) {
     if (e.dir === 'Left' && swipeData.index < content.length - 1) {
@@ -44,6 +46,16 @@ export default function Home({ content, pageOrder, projectInfo }) {
       setSwipeData(data);
     }
   }
+
+  useEffect(() => {
+    const loadingTimeout = setTimeout(() => {
+      setIsLoading(false);
+    }, 4000);
+
+    return () => {
+      clearTimeout(loadingTimeout);
+    }
+  }, [])
 
   useEffect(() => {
     if (isMobile) {
@@ -91,21 +103,24 @@ export default function Home({ content, pageOrder, projectInfo }) {
   }, [windowSize])
 
   useEffect(() => {
-    if (isDesktop) {
+    if (isDesktop && !isLoading) {
       function callback() {
         document.body.style.transform = `translate(${(-mousePosition.current.mouse.pageX + (window.innerWidth / 2)) / 10}px, ${(-mousePosition.current.mouse.pageY + (window.innerHeight / 2)) / 10}px)`
       }
-      if (mousePosition && !isMobile) {
+      if (mousePosition) {
         window.addEventListener("mousemove", callback)
         return () => {
           window.removeEventListener("mousemove", callback)
         }
       }
     }
-  }, [mousePosition, isDesktop])
+  }, [mousePosition, isDesktop, isLoading])
 
   return (
     <>
+      <AnimatePresence>
+        {isLoading ? <Loading key="loading"/> : null}
+      </AnimatePresence>
       <div ref={globalContainerRef} {...swipeHandlers} className='swiper--control'>
         <div className='container--pages' ref={pagesContainerRef}  >
           <Background windowSize={windowSize} ref={backgroundContainerRef} isDisplayed={swipeData.index === 0} />

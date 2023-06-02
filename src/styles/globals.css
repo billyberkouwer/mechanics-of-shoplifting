@@ -325,6 +325,36 @@ canvas {
   display: none;
 }
 
+/*--------------------- LOADING ------------------------*/
+
+.container--loading-page {
+  width: 100%;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  position: fixed;
+  background-color: beige;
+  z-index: 1000000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.bog-logo {
+  animation: rotating infinite 2s ease;
+}
+
+@keyframes rotating {
+  from {
+    transform: rotate(0deg)
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* ------------------ NAVIGATION ------------------ */
 
 .click-area-left {

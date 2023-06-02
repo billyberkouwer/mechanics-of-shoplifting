@@ -56,7 +56,7 @@ const Background = forwardRef(function Background(props, ref) {
                     {Array(10).fill('').map((el, index) => (
                         Array(12).fill('').map((el, i) => (
                             <div key={'bg-image' + i} className="poster-container" ref={el => el && backgroundImageContainerRefs.current.push(el)}>
-                                <Image priority src={`/assets/images/${i + 1}c.png`} onLoad={(e) => setRenderedImageSizes(curr => [...curr, e.target.naturalWidth / e.target.naturalHeight])} fill alt={'bg image' + i} sizes="80vh" className={"posters"} />
+                                <Image priority src={`/assets/images/${i + 1}c.png`} onLoad={(e) => {setRenderedImageSizes(curr => [...curr, e.target.naturalWidth / e.target.naturalHeight])}} fill alt={'bg image' + i} sizes="80vh" className={"posters"} />
                             </div>
                         ))
                     ))}
