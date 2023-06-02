@@ -272,6 +272,7 @@ body {
 }
 
 .pointing-hand {
+  transform: translateY(-25%);
   position: relative;
 }
 
