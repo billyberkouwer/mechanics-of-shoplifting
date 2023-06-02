@@ -205,7 +205,6 @@ svg {
 @media screen and (min-width: 768px) {
   .container--homepage {
     min-width: 50vw;
-    margin-right: 10vw;
     justify-content: flex-end;
     left: 10vw;
   }
@@ -235,6 +234,7 @@ svg {
   left: calc(50% - min(calc(85svh * 0.7), 90vw)/2);
   min-width: min(calc(85vh * 0.7), 90vw);
   min-width: min(calc(85svh * 0.7), 90vw);
+  max-width: min(calc(85vh * 0.7), 90vw);
   opacity: 1;
   user-select: none;
 }
@@ -330,7 +330,7 @@ canvas {
 .click-area-left {
   position: fixed;
   top: -20vh;
-  left: 87.5vw;
+  left: 90vw;
   width: 40vw;
   height: 140vh;
   z-index: 1000;
@@ -356,9 +356,34 @@ canvas {
 .click-area-right {
   position: fixed;
   top: -20vh;
-  left: -12.5vw;
+  left: -30vw;
   width: 40vw;
   height: 140vh;
   z-index: 1000;
   cursor: pointer;
+}
+
+.project-info--button--container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 2em;
+  height: 2em;
+  border-radius: 2em;
+  border: 2px solid white;
+  color: white;
+  background: none;
+  /* background-color: red; */
+  z-index: 1000;
+  font-family: "My Custom Font", "Times New Roman", Times, serif;
+  font-size: 40px;
+  margin: 0;
+  cursor: pointer;
+  mix-blend-mode: difference;
+}
+
+.project-info--button--container:hover {
+  font-style: italic;
+  background-color: rgba(212, 1, 1, 0.9);
+
 }

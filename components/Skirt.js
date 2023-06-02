@@ -3,7 +3,7 @@ import { useGLTF, useAnimations, MeshReflectorMaterial, MeshTransmissionMaterial
 import { useFrame } from "@react-three/fiber";
 import { Color, CubeTextureLoader } from "three";
 
-export default function Skirt({ model, pageTitle }) {
+export default function Skirt({ model, pageTitle, isActive }) {
   const { scene, materials, nodes } = useGLTF(model);
   const ref = useRef();
   const texture = useMemo(() => new CubeTextureLoader().setPath('/assets/').load(['square.jpg', 'square.jpg', 'square.jpg', 'square.jpg', 'square.jpg', 'square.jpg',]), [])
@@ -16,46 +16,49 @@ export default function Skirt({ model, pageTitle }) {
   const secondMorphTargetAmount = useRef((4.3));
 
   useFrame((state, delta) => {
-      ref.current.rotation.y += delta/9;
-      scene.children.forEach(mesh => {
-          if (mesh.morphTargetInfluences) {
-              const speed = 3.5;
-              const firstMorphFactor = (Math.cos(firstMorphTargetAmount.current) + 1) / 2;
-              firstMorphTargetAmount.current = firstMorphTargetAmount.current + (delta * speed);
-              mesh.morphTargetInfluences.forEach((morphTarget) => { morphTarget = 0 })
-              mesh.morphTargetInfluences[firstTarget.current] = firstMorphFactor;
-              if (firstTargetDirection.current === 'increasing') {
-                  if (firstMorphFactor > 0.99) {
-                      firstTargetDirection.current = 'decreasing';
-                  }
-              }
-
-              if (firstTargetDirection.current === 'decreasing') {
-                  if (firstMorphFactor < 0.01) {
-                      mesh.morphTargetInfluences[firstTarget.current] = 0;
-                      firstTarget.current = Math.floor(Math.random() * mesh.morphTargetInfluences.length);
-                      firstTargetDirection.current = 'increasing';
-
-                  }
-              }
-
-              const secondMorphFactor = (Math.sin(secondMorphTargetAmount.current) + 1) / 2;
-              secondMorphTargetAmount.current = secondMorphTargetAmount.current + (delta * speed);
-              mesh.morphTargetInfluences[secondTarget.current] = secondMorphFactor;
-              if (secondTargetDirection.current === 'increasing') {
-                  if (secondMorphFactor > 0.99) {
-                      secondTargetDirection.current = 'decreasing';
-                  }
-              }
-              if (secondTargetDirection.current === 'decreasing') {
-                  if (secondMorphFactor < 0.01) {
-                      mesh.morphTargetInfluences[secondTarget.current] = 0;
-                      secondTarget.current = Math.floor(Math.random() * mesh.morphTargetInfluences.length);
-                      secondTargetDirection.current = 'increasing';
-                  }
-              }
-          }
-      });
+    if (isActive) {
+        ref.current.rotation.y += delta/9;
+        scene.children.forEach(mesh => {
+            if (mesh.morphTargetInfluences) {
+                const speed = 3.5;
+                const firstMorphFactor = (Math.cos(firstMorphTargetAmount.current) + 1) / 2;
+                firstMorphTargetAmount.current = firstMorphTargetAmount.current + (delta * speed);
+                mesh.morphTargetInfluences.forEach((morphTarget) => { morphTarget = 0 })
+                mesh.morphTargetInfluences[firstTarget.current] = firstMorphFactor;
+                if (firstTargetDirection.current === 'increasing') {
+                    if (firstMorphFactor > 0.99) {
+                        firstTargetDirection.current = 'decreasing';
+                    }
+                }
+  
+                if (firstTargetDirection.current === 'decreasing') {
+                    if (firstMorphFactor < 0.01) {
+                        mesh.morphTargetInfluences[firstTarget.current] = 0;
+                        firstTarget.current = Math.floor(Math.random() * mesh.morphTargetInfluences.length);
+                        firstTargetDirection.current = 'increasing';
+  
+                    }
+                }
+  
+                const secondMorphFactor = (Math.sin(secondMorphTargetAmount.current) + 1) / 2;
+                secondMorphTargetAmount.current = secondMorphTargetAmount.current + (delta * speed);
+                mesh.morphTargetInfluences[secondTarget.current] = secondMorphFactor;
+                if (secondTargetDirection.current === 'increasing') {
+                    if (secondMorphFactor > 0.99) {
+                        secondTargetDirection.current = 'decreasing';
+                    }
+                }
+                if (secondTargetDirection.current === 'decreasing') {
+                    if (secondMorphFactor < 0.01) {
+                        mesh.morphTargetInfluences[secondTarget.current] = 0;
+                        secondTarget.current = Math.floor(Math.random() * mesh.morphTargetInfluences.length);
+                        secondTargetDirection.current = 'increasing';
+                    }
+                }
+            }
+        });
+    }
+      
   });
 
   return (

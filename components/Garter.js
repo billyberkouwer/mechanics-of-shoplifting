@@ -3,7 +3,7 @@ import { useGLTF, useAnimations, MeshReflectorMaterial, MeshTransmissionMaterial
 import { useFrame } from "@react-three/fiber";
 import { Color, CubeTextureLoader } from "three";
 
-export default function Garter({ model, pageTitle }) {
+export default function Garter({ model, pageTitle, isActive }) {
     const { scene, materials, nodes } = useGLTF(model);
     const ref = useRef();
     const texture = useMemo(() => new CubeTextureLoader().setPath('/assets/').load(['square.jpg', 'square.jpg', 'square.jpg', 'square.jpg', 'square.jpg', 'square.jpg',]), [])
@@ -16,7 +16,8 @@ export default function Garter({ model, pageTitle }) {
     const secondMorphTargetAmount = useRef((4.3));
 
     useFrame((state, delta) => {
-        ref.current.rotation.y += delta / 4;
+        if (isActive) {
+            ref.current.rotation.y += delta / 4;
         scene.children.forEach(mesh => {
             if (mesh.morphTargetInfluences) {
                 const speed = 3.5;
@@ -56,6 +57,7 @@ export default function Garter({ model, pageTitle }) {
                 }
             }
         });
+        }
     });
 
     return (

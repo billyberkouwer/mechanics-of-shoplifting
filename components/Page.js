@@ -1,5 +1,5 @@
 import { forwardRef, useEffect, useRef, useState } from "react"
-import { motion } from "framer-motion";
+import { easeIn, motion } from "framer-motion";
 import { PortableText } from "@portabletext/react";
 import Footnote from "./Footnote";
 import Image from "next/image";
@@ -8,7 +8,8 @@ import { isMobile } from "react-device-detect";
 const Page = forwardRef(({
     footnotes,
     content,
-    isActive
+    isActive,
+    isProjectInfoPage
 }, ref) => {
     const [pageRotation, setPageRotation] = useState({ start: undefined, end: undefined });
     const pageElementsRef = useRef([]);
@@ -50,7 +51,7 @@ const Page = forwardRef(({
     }, [isActive])
 
     return (
-        <motion.div className='container--page' ref={el => {if (el) {ref.current.push(el)}}} initial={{ scale: 2, rotateZ: pageRotation.start }} transition={{ duration: 0.5 }} animate={{ scale: 1, rotateZ: pageRotation.end }}>
+        <motion.div className='container--page' ref={el => {if (el) {ref.current.push(el)}}} initial={{ scale: 2, rotateZ: pageRotation.start, x: isProjectInfoPage ? '100vw' : null }} transition={{ duration: 0.5, ease: 'easeIn' }} animate={{ scale: 1, rotateZ: pageRotation.end, x: isProjectInfoPage ? 0 : null }} exit={{ scale: 2, rotateZ: pageRotation.start, x: isProjectInfoPage ? '-100vw' : null,  }} >
             <div style={{position: 'fixed', zIndex: -1, height: '100%', width: '100%', top: 0, left: 0}}>
                 <Image src={"/assets/paper.png"} fill />
             </div>

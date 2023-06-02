@@ -5,7 +5,7 @@ import { transform } from "framer-motion";
 import PointingHand from "./PointingHand";
 
 const Background = forwardRef(function Background(props, ref) {
-    const { windowSize, changeBg } = props;
+    const { windowSize } = props;
     const backgroundImageContainerRefs = useRef([]);
     const handRef = useRef();
     const [renderImageSizes, setRenderedImageSizes] = useState([]);
@@ -23,19 +23,18 @@ const Background = forwardRef(function Background(props, ref) {
             image.classList.add(randomBlendMode);
             image.classList.add('block')
         });
-        console.log(changeBg)
-    }, [renderImageSizes, windowSize, changeBg]);
+    }, [renderImageSizes, windowSize]);
 
     useEffect(() => {
         if (handRef.current) {
             if (props.isDisplayed) {
                 const fadeIn = setTimeout(() => {
                     handRef.current.classList.add("visible");
-                }, 1000)
+                }, 3000)
     
                 const slide = setTimeout(() => {
                     handRef.current.classList.add("slide");
-                }, 5000)
+                }, 8000)
     
                 return () => {
                     clearTimeout(slide)

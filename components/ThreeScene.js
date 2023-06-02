@@ -36,9 +36,9 @@ const ThreeScene = forwardRef(({
                 <pointLight position={[4, 0, 0]} intensity={0.25} />
                 <pointLight position={[-4, 0, 0]} intensity={0.25} />
                 <pointLight position={[0, 4, 0]} intensity={0.75} />
-                {pageTitle === "3D Page - The Skirt" && <Skirt model={model} />}
-                {pageTitle === "3D Page - The Garter" && <Garter model={model} />}
-                {pageTitle === "3D Page - The Third Arm" && <Cape model={model} />}
+                {pageTitle === "3D Page - The Skirt" && <Skirt model={model} isActive={isActive}/>}
+                {pageTitle === "3D Page - The Garter" && <Garter model={model} isActive={isActive} />}
+                {pageTitle === "3D Page - The Third Arm" && <Cape model={model} isActive={isActive} />}
                 {pageTitle === "3D Page - The Third Arm" && pageTitle === "3D Page - The Garter" && pageTitle === "3D Page - The Skirt" && <GeneralMesh mode={model} />}
                 <OrbitControls />
             </Canvas>

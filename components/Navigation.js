@@ -1,7 +1,7 @@
 import { useState } from "react"
 import Candle from "./Candle"
 
-export default function Navigation({ setSwipeData, swipeData, isDesktop, handleSwipe, contentLength }) {
+export default function Navigation({ setSwipeData, swipeData, isDesktop, handleSwipe, contentLength, setIsProjectInfoDisplayed }) {
     const [eyeController, setEyeController] = useState({ backward: false, visible: false })
 
     return (
@@ -20,6 +20,9 @@ export default function Navigation({ setSwipeData, swipeData, isDesktop, handleS
                 onClick={() => handleSwipe({ dir: 'Right' })}
             />
             <Candle eyeController={eyeController} />
+            <button className="project-info--button--container" onClick={() => setIsProjectInfoDisplayed((curr) => !curr)}>
+                i
+            </button>
         </>
     )
 }
