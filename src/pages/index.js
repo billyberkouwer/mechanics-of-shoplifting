@@ -130,7 +130,7 @@ export default function Home({ content, pageOrder, projectInfo }) {
             )}
           </AnimatePresence>
         </div>
-        <AnimatePresence mode='wait'>
+        <AnimatePresence>
           {isProjectInfoDisplayed ? <div key={"info-page"} className='container--pages'>
               <Page ref={pageRefs} isProjectInfoPage content={projectInfo[0].content} />
           </div> : null}

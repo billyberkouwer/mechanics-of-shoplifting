@@ -62,7 +62,7 @@ export default function Cape({ model, pageTitle, isActive }) {
     });
 
     return (
-        <group ref={ref} dispose={null} scale={5}>
+        <group ref={ref} dispose={null} scale={4}>
             <group name="Scene">
                 <mesh
                     name="3_z"
