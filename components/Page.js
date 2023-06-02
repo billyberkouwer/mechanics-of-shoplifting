@@ -8,6 +8,7 @@ import { isMobile } from "react-device-detect";
 const Page = forwardRef(({
     footnotes,
     content,
+    isActive
 }, ref) => {
     const [pageRotation, setPageRotation] = useState({ start: undefined, end: undefined });
     const pageElementsRef = useRef([]);
@@ -38,7 +39,15 @@ const Page = forwardRef(({
         }
         const rotation = { start: (Math.random() - 0.5) * factor, end: (Math.random() - 0.5) * factor }
         setPageRotation(rotation)
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        if (pageElementsRef.current[0] && isActive) {
+            pageElementsRef.current[0].style.userSelect = "text";
+        }   else if (pageElementsRef.current[0]) {
+            pageElementsRef.current[0].style.userSelect = "none";
+         }
+    }, [isActive])
 
     return (
         <motion.div className='container--page' ref={el => {if (el) {ref.current.push(el)}}} initial={{ scale: 2, rotateZ: pageRotation.start }} transition={{ duration: 0.5 }} animate={{ scale: 1, rotateZ: pageRotation.end }}>

@@ -29,6 +29,10 @@ h1 {
   h1 {
     font-size: 2em;
   }
+
+  p {
+    font-size: 1.1em;
+  }
 }
 
 /* body::-webkit-scrollbar {
@@ -160,8 +164,18 @@ body {
   min-width: min(calc(85vh * 0.7), 90vw);
   min-width: min(calc(85svh * 0.7), 90vw);
   opacity: 1;
+  user-select: none;
   /* mix-blend-mode: lighten; */
 
+}
+
+.footnote {
+  left: 0;
+  width: max-content;
+  max-width: 100%;
+  position: sticky; 
+  display: inline;
+  transition: margin 0.5s ease-in-out;
 }
 
 .poster-container {
@@ -194,7 +208,6 @@ body {
   background:  rgb(175, 175, 150);    /* color of the scroll thumb */
   border-radius: 20px;    
   border: 2px solid rgb(122, 122, 90); 
-
 }
 
 .content-container--page {
@@ -231,6 +244,38 @@ body {
   pointer-events: none;
 }
 
+.container--hand {
+  position: fixed;
+  bottom: 0;
+  right: -5vw;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  mix-blend-mode: luminosity;
+}
+
+@keyframes slide {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-5vw);
+  }
+}
+.slide {
+  animation: 1s infinite alternate ease slide;
+}
+
+.visible {
+  opacity: 1;
+}
+
+.pointing-hand {
+  position: relative;
+  transform: translate(-50%, -50%);
+}
+
 .eye {
   opacity: 0;
   transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
@@ -256,7 +301,8 @@ svg {
 
 canvas {
   transition: filter 0.5s linear;
-  -webkit-transition : -webkit-filter 500ms linear
+  -webkit-transition : -webkit-filter 500ms linear;
+  cursor: pointer;
 }
 
 .container--3d-page {
@@ -287,6 +333,22 @@ canvas {
   height: 140vh;
   z-index: 1000;
   cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.click-area-left:hover {
+  background: rgb(255,255,255);
+  background: -moz-linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255, 255, 255, 0.6) 70%);
+  background: -webkit-linear-gradient(90deg, rgba(255,255,255,0) 0%, rgb(255, 255, 255)70%);
+  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgb(255, 255, 255) 70%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff",endColorstr="#ffffff",GradientType=1);
+  opacity: 0.7;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.click-area-left:active {
+  opacity: 1;
 }
 
 .click-area-right {

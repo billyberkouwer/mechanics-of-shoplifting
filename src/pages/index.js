@@ -77,7 +77,7 @@ export default function Home({ content, pageOrder }) {
   }, [])
 
   const swipeHandlers = useSwipeable({
-    onSwiped: (e) => {if (content[swipeData.index]['_type'] === "threePage") { if (e.velocity > 1.05) {handleSwipe(e)}} else {handleSwipe(e)}},
+    onSwiped: (e) => {if (content[swipeData.index]['_type'] === "threePage") { if (e.velocity > 0.9) {handleSwipe(e)}} else {handleSwipe(e)}},
   });
 
 
@@ -99,7 +99,7 @@ export default function Home({ content, pageOrder }) {
     <>
       <div ref={globalContainerRef} {...swipeHandlers} className='swiper--control'>
         <div className='container--pages' ref={pagesContainerRef}  >
-          <Background windowSize={windowSize} ref={backgroundContainerRef} />
+          <Background windowSize={windowSize} ref={backgroundContainerRef} isDisplayed={swipeData.index === 0} />
           <AnimatePresence>
             {content.map((page, index) => {
               if (page["_type"] === 'homepage') {
@@ -115,7 +115,7 @@ export default function Home({ content, pageOrder }) {
                 )
               }
               return (
-                <Page key={'page' + index} ref={pageRefs} swipeIndex={swipeData.index} content={page.content} footnotes={page.references} />
+                <Page key={'page' + index} ref={pageRefs} isActive={swipeData.index === index} content={page.content} footnotes={page.references} />
               )
             }
             )}
