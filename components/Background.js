@@ -63,7 +63,7 @@ const Background = forwardRef(function Background(props, ref) {
                     ))}
                 </div>
                 <div className="container--hand" ref={handRef}>
-                    <PointingHand strokeColor={`rgb(${Math.round(Math.random()*100)}, ${Math.round(Math.random()*100)}, ${Math.round(Math.random()*100)})`} />
+                    <PointingHand strokeColor={"black"} />
                 </div>
             </div>
 
