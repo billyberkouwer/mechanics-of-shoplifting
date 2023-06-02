@@ -247,7 +247,7 @@ body {
 .container--hand {
   position: fixed;
   bottom: 0;
-  right: -5vw;
+  right: 0vw;
   z-index: 1000;
   opacity: 0;
   transition: opacity 1s ease-in-out;
@@ -260,7 +260,7 @@ body {
   }
 
   to {
-    transform: translateX(-5vw);
+    transform: translateX(-10vw);
   }
 }
 .slide {
@@ -273,7 +273,6 @@ body {
 
 .pointing-hand {
   position: relative;
-  transform: translate(-50%, -50%);
 }
 
 .eye {
