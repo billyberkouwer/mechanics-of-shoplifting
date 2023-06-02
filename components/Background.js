@@ -5,7 +5,7 @@ import { transform } from "framer-motion";
 import PointingHand from "./PointingHand";
 
 const Background = forwardRef(function Background(props, ref) {
-    const { windowSize } = props;
+    const { windowSize, changeBg } = props;
     const backgroundImageContainerRefs = useRef([]);
     const handRef = useRef();
     const [renderImageSizes, setRenderedImageSizes] = useState([]);
@@ -23,7 +23,8 @@ const Background = forwardRef(function Background(props, ref) {
             image.classList.add(randomBlendMode);
             image.classList.add('block')
         });
-    }, [renderImageSizes, windowSize]);
+        console.log(changeBg)
+    }, [renderImageSizes, windowSize, changeBg]);
 
     useEffect(() => {
         if (handRef.current) {
@@ -62,7 +63,7 @@ const Background = forwardRef(function Background(props, ref) {
                     ))}
                 </div>
                 <div className="container--hand" ref={handRef}>
-                    <PointingHand strokeColor="black" />
+                    <PointingHand strokeColor={`rgb(${Math.round(Math.random()*100)}, ${Math.round(Math.random()*100)}, ${Math.round(Math.random()*100)})`} />
                 </div>
             </div>
 

@@ -20,9 +20,16 @@ body {
 
 h1 {
   font-size: 1.25em;
-  background-color: white;
+  background-color: beige;
   padding: 10px;
   color: black;
+  transition: color 0.5s, background-color 0.5s;
+  user-select: none;
+}
+
+h1:hover {
+  color: white;
+  background-color: rgb(58, 28, 58);
 }
 
 @media screen and (min-width: 768px) {
@@ -251,7 +258,6 @@ body {
   z-index: 1000;
   opacity: 0;
   transition: opacity 1s ease-in-out;
-  mix-blend-mode: luminosity;
 }
 
 @keyframes slide {

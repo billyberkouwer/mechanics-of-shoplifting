@@ -27,6 +27,7 @@ export default function Home({ content, pageOrder }) {
   const windowSize = useWindowSize();
   const mousePosition = useMousePosition();
   const [isDesktop, setIsDesktop] = useState(undefined);
+  const [changeBg, setChangeBg] = useState(false);
 
   function handleSwipe(e) {
     if (e.dir === 'Left' && swipeData.index < content.length - 1) {
@@ -99,13 +100,13 @@ export default function Home({ content, pageOrder }) {
     <>
       <div ref={globalContainerRef} {...swipeHandlers} className='swiper--control'>
         <div className='container--pages' ref={pagesContainerRef}  >
-          <Background windowSize={windowSize} ref={backgroundContainerRef} isDisplayed={swipeData.index === 0} />
+          <Background windowSize={windowSize} ref={backgroundContainerRef} changeBg={changeBg} isDisplayed={swipeData.index === 0} />
           <AnimatePresence>
             {content.map((page, index) => {
               if (page["_type"] === 'homepage') {
                 return (
                   <div ref={el => pageRefs.current[index] = el} key="homepage" className='container--homepage'>
-                    <h1>{page.siteTitle}</h1>
+                    <h1 onMouseOver={() => {setChangeBg(!changeBg)}}>{page.siteTitle}</h1>
                   </div>
                 )
               }

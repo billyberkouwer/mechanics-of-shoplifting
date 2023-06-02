@@ -11,6 +11,7 @@ export default function Navigation({ setSwipeData, swipeData, isDesktop, handleS
                 onMouseEnter={() => { swipeData.index < contentLength - 1 && setEyeController({ backward: false, visible: true }) }}
                 onMouseLeave={() => setEyeController({ backward: false, visible: false })}
                 onClick={() => handleSwipe({ dir: 'Left' })}
+                style={{transform: swipeData.index === 0 ? 'scale(1.75)' : null}}
             />
             <div
                 className={`click-area-right ${isDesktop ? null : 'hidden'}`}
