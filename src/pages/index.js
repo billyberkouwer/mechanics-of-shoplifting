@@ -83,6 +83,15 @@ export default function Home({ content, pageOrder }) {
 
 
   useEffect(() => {
+    document.body.style.height = windowSize.y + 'px';
+    if (globalContainerRef.current) {
+      globalContainerRef.current.style.minHeight = windowSize.y + 'px';
+
+    }
+    console.log(document.body.style.height)
+  }, [windowSize])
+
+  useEffect(() => {
     if (isDesktop) {
       function callback() {
         document.body.style.transform = `translate(${(-mousePosition.current.mouse.pageX + (window.innerWidth / 2)) / 10}px, ${(-mousePosition.current.mouse.pageY + (window.innerHeight / 2)) / 10}px)`
